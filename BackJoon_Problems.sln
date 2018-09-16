@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BackJoon_Problems", "BackJoon_Problems\BackJoon_Problems.vcxproj", "{DB68B6FC-3967-4B65-8396-FD4716F32D3B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B61DBF79-2404-4496-8803-6E926E4848F8}"
+	ProjectSection(SolutionItems) = preProject
+		main.md = main.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
