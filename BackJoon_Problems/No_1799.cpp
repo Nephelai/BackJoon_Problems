@@ -7,80 +7,65 @@
 #include <algorithm>
 using namespace std;
 
-int map[16][16];
-int N, res;
+int n, chess[11][11], check[50], ans, ans2;
 
-void Position(int x, int y, int n) {
-	int newX, newY;
+void func1(int r, int c, int l) {
+	if (ans < l)
+		ans = l;
+	if (r >= n)	return;
 
-	int tmp_map[16][16];
+	if (c >= n) {
+		r++;
+		if (r % 2)	c = 1;
+		else c = 0;
+	}
 
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			tmp_map[i][j] = map[i][j];
+	if (chess[r][c]) {
+		if (!check[r + c] && !check[25 + r - c]) {
+			check[r + c] = 1;
+			check[25 + r - c] = 1;
+			func1(r, c + 2, l + 1);
+			check[r + c] = 0;
+			check[25 + r - c] = 0;
+		}
+	}
+	func1(r, c + 2, l);
+}
+
+void func2(int r, int c, int l) {
+	if (ans2 < l)
+		ans2 = l;
+	if (r >= n)	return;
+
+	if (c >= n) {
+		r++, c = 0;
+		if (r % 2)	c = 0;
+		else c = 1;
+	}
+
+	if (chess[r][c]) {
+		if (!check[r + c] && !check[25 + r - c]) {
+			check[r + c] = 1;
+			check[25 + r - c] = 1;
+			func2(r, c + 2, l + 1);
+			check[r + c] = 0;
+			check[25 + r - c] = 0;
 		}
 	}
 
-	tmp_map[x][y] = 2;
-
-	newX = x + 1;
-	newY = y + 1;
-	while (newX < N && newY < N) {
-		tmp_map[newX][newY] = 1;
-		newX++;
-		newY++;
-	}
-
-	newX = x - 1;
-	newY = y + 1;
-	while (newX >= 0 && newY < N) {
-		tmp_map[newX][newY] = 1;
-		newX--;
-		newY++;
-	}
-
-	newX = x - 1;
-	newY = y - 1;
-	while (newX >= 0 && newY >= 0) {
-		tmp_map[newX][newY] = 1;
-		newX--;
-		newY--;
-	}
-
-	newX = x + 1;
-	newY = y - 1;
-	while (newX < N && newY >= 0) {
-		tmp_map[newX][newY] = 1;
-		newX++;
-		newY--;
-	}
-
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			if (tmp_map[i][j] == 0) Position(i, j, n + 1);
-		}
-	}
-
-	res = max(res, n);
-	return;
+	func2(r, c + 2, l);
 }
 
 int main() {
-	scanf("%d", &N);
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			scanf("%d", &chess[i][j]);
 
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			scanf("%d", &map[i][j]);
-		}
-	}
+	func1(0, 0, 0);
+	func2(0, 1, 0);
 
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			if(map[i][j] == 0) Position(i, j, 1);
-		}
-	}
-
-	printf("%d\n", res);
+	printf("%d\n", ans + ans2);
 
 	return 0;
 }
