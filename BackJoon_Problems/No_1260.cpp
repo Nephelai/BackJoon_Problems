@@ -1,9 +1,5 @@
 #include <iostream>
-#include <stack>
-#include <queue>
 using namespace std;
-
-/*
 
 class Stack {
 public:
@@ -68,7 +64,7 @@ bool Queue::isEmpty() {
 	else return false;
 }
 
-*/
+
 struct AdjMatrix {
 	bool connected[1024] = { false, };
 	bool visited = false;
@@ -82,33 +78,31 @@ int num1, num2;
 // Stack 만으로 DFS 구성이 가능한가?
 // 거꾸로 넣으면..?
 void DFS(int s) {
-	stack<int> _stack;
-	_stack.push(s);
+	Stack stack;
+	stack.Push(s);
 	int tmp = -1;
-	while (!_stack.empty()) {
-		tmp = _stack.top();
-		_stack.pop();
+	while (!stack.isEmpty()) {
+		tmp = stack.Pop();
 		if (map[tmp].visited) continue;
 		printf("%d ", tmp);
 		map[tmp].visited = true;
 		for (int i = vertexs; i > 0; i--) {
-			if (map[tmp].connected[i] && !map[i].visited) _stack.push(i);
+			if (map[tmp].connected[i] && !map[i].visited) stack.Push(i);
 		}
 	}
 }
 
 void BFS(int s) {
-	queue<int> _queue;
-	_queue.push(s);
+	Queue queue;
+	queue.Push(s);
 	int tmp = -1;
-	while (!_queue.empty()) {
-		tmp = _queue.front();
-		_queue.pop();
+	while (!queue.isEmpty()) {
+		tmp = queue.Pop();
 		if (map[tmp].visited) continue;
 		printf("%d ", tmp);
 		map[tmp].visited = true;
 		for (int i = 1; i <= vertexs; i++) {
-			if (map[tmp].connected[i] && !map[i].visited) _queue.push(i);
+			if (map[tmp].connected[i] && !map[i].visited) queue.Push(i);
 		}
 	}
 }
